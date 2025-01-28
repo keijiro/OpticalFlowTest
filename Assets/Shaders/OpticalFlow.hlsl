@@ -1,9 +1,9 @@
-static const int kWindowWidth = 6;
+static const int kWindowWidth = 4;
 
 // Gaussian weight
 float OF_GaussWeight(float x, float y)
 {
-    float sigma = (kWindowWidth * 2 + 1) / 3.0;
+    float sigma = (kWindowWidth * 2 + 1) / 6.0;
     float2 v = float2(x, y);
     return exp(-dot(v, v) / (2 * sigma * sigma));
 }
