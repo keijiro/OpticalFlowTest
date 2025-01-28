@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0d67d50b89fd444388b8460732ff89ef
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _source: {instanceID: 0}
+  - _ui: {instanceID: 0}
+  - _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
+  - _flowShader: {fileID: -6465566751694194690, guid: 7e70d494781964124a6e29168c25f3c4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
