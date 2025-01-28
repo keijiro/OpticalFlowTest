@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 1912508883}
+  _frameRate: 25
   _ui: {fileID: 231048556}
   _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
   _flowShader: {fileID: -6465566751694194690, guid: 7e70d494781964124a6e29168c25f3c4, type: 3}
@@ -376,13 +377,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _generatorShader: {fileID: 4800000, guid: 3f7d8db4748f54c638a46cec0b0e61f8, type: 3}
-  _sourceType: 8
-  _outputResolution: {x: 80, y: 45}
+  _sourceType: 1
+  _outputResolution: {x: 160, y: 90}
   _outputDestination: {fileID: 0}
   <SourceTexture>k__BackingField: {fileID: 0}
-  _sourceVideo: {fileID: 0}
+  _sourceVideo: {fileID: 32900000, guid: ce9d2374530a54a0ca704a3e76a09868, type: 3}
   <SourceCamera>k__BackingField: {fileID: 0}
-  _sourceUrl: Test2.mp4
+  _sourceUrl: 
   _sourceName: 
   _deviceResolution: {x: 0, y: 0}
   _deviceFrameRate: 0

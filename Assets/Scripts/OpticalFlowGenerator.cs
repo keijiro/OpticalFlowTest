@@ -5,6 +5,7 @@ using Klak.TestTools;
 public sealed class OpticalFlowGenerator : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
+    [SerializeField] float _frameRate = 30;
     [SerializeField] UIDocument _ui = null;
 
     [SerializeField, HideInInspector] Shader _gradShader = null;
@@ -44,8 +45,8 @@ public sealed class OpticalFlowGenerator : MonoBehaviour
     void Update()
     {
         _elapsed += Time.deltaTime;
-        if (_elapsed < 1.0f / 30) return;
-        _elapsed -= 1.0f / 30;
+        if (_elapsed < 1 / _frameRate) return;
+        _elapsed -= 1 / _frameRate;
 
         var source = _source.AsRenderTexture;
         if (_material.grad == null) Setup(source);
