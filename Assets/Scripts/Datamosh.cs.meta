@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b1cc5f32b332e4f1f91e18117a749263
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _source: {instanceID: 0}
+  - _generator: {instanceID: 0}
+  - _effectShader: {fileID: -6465566751694194690, guid: 5a3fcb805ec02411e91c22d58378434b, type: 3}
+  - _displayShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  - _quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
