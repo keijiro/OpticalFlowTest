@@ -528,7 +528,7 @@ MonoBehaviour:
   _outputResolution: {x: 1920, y: 1080}
   _outputDestination: {fileID: 0}
   <SourceTexture>k__BackingField: {fileID: 0}
-  _sourceVideo: {fileID: 32900000, guid: ce9d2374530a54a0ca704a3e76a09868, type: 3}
+  _sourceVideo: {fileID: 32900000, guid: 12d5b8073064141e4b4626db5567db0a, type: 3}
   <SourceCamera>k__BackingField: {fileID: 0}
   _sourceUrl: 
   _sourceName: 

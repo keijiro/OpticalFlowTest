@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
-  title: 
+  title: Lines
   m_Owners:
   - {fileID: 114350483966674997}
   - {fileID: 114350483966675038}
