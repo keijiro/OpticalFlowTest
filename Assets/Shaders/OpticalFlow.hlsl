@@ -1,9 +1,9 @@
-static const int kWindowWidth = 4;
+static const int kWindowWidth = 5;
 
 // Gaussian weight
 float OF_GaussWeight(float x, float y)
 {
-    float sigma = (kWindowWidth * 2 + 1) / 6.0;
+    float sigma = (kWindowWidth * 2 + 1) / 3.0;
     float2 v = float2(x, y);
     return exp(-dot(v, v) / (2 * sigma * sigma));
 }
@@ -21,12 +21,12 @@ void OF_Gradients_float
   (UnityTexture2D Source, UnityTexture2D Previous, float2 UV, out float3 Output)
 {
     float3 duv = float3(Source.texelSize.xy, 0);
-    float cur = Luminance(LinearToSRGB(tex2D(Source, UV).rgb));
-    float pre = Luminance(LinearToSRGB(tex2D(Previous, UV).rgb));
-    float x_n = Luminance(LinearToSRGB(tex2D(Source, UV - duv.xz).rgb));
-    float x_p = Luminance(LinearToSRGB(tex2D(Source, UV + duv.xz).rgb));
-    float y_n = Luminance(LinearToSRGB(tex2D(Source, UV - duv.zy).rgb));
-    float y_p = Luminance(LinearToSRGB(tex2D(Source, UV + duv.zy).rgb));
+    float cur = Luminance(tex2D(Source, UV).rgb);
+    float pre = Luminance(tex2D(Previous, UV).rgb);
+    float x_n = Luminance(tex2D(Source, UV - duv.xz).rgb);
+    float x_p = Luminance(tex2D(Source, UV + duv.xz).rgb);
+    float y_n = Luminance(tex2D(Source, UV - duv.zy).rgb);
+    float y_p = Luminance(tex2D(Source, UV + duv.zy).rgb);
     Output = float3((x_p - x_n) / 2, (y_p - y_n) / 2, cur - pre);
 }
 

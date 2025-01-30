@@ -7,6 +7,7 @@ public sealed class Datamosh : MonoBehaviour
     [SerializeField] ImageSource _source = null;
     [SerializeField] OpticalFlowGenerator _generator = null;
     [SerializeField] float _interval = 1;
+    [SerializeField] float _vectorScale = 2;
 
     [SerializeField, HideInInspector] Shader _effectShader = null;
     [SerializeField, HideInInspector] Shader _displayShader = null;
@@ -49,6 +50,7 @@ public sealed class Datamosh : MonoBehaviour
             _timer += _interval;
         }
 
+        _material.effect.SetFloat("_VectorScale", _vectorScale);
         _material.effect.SetTexture("_FlowTex", _generator.AsRenderTexture);
         Graphics.Blit(_rt.source, _rt.dest, _material.effect, 0);
 

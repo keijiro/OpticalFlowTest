@@ -148,10 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cc5f32b332e4f1f91e18117a749263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resolution: {x: 1280, y: 720}
+  _resolution: {x: 1920, y: 1152}
   _source: {fileID: 1912508883}
   _generator: {fileID: 715894857}
   _interval: 1
+  _vectorScale: 3
   _effectShader: {fileID: -6465566751694194690, guid: 5a3fcb805ec02411e91c22d58378434b, type: 3}
   _displayShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   _quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
@@ -165,7 +166,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7777778, y: 1, z: 1}
+  m_LocalScale: {x: 1.6666666, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -214,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67d50b89fd444388b8460732ff89ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resolution: {x: 160, y: 90}
+  _resolution: {x: 160, y: 96}
   _source: {fileID: 1912508883}
   _frameRate: 25
   _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
@@ -262,7 +263,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7777778, y: 1, z: 1}
+  m_LocalScale: {x: 1.6666666, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -576,7 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _generatorShader: {fileID: 4800000, guid: 3f7d8db4748f54c638a46cec0b0e61f8, type: 3}
   _sourceType: 1
-  _outputResolution: {x: 1920, y: 1080}
+  _outputResolution: {x: 1920, y: 1152}
   _outputDestination: {fileID: 0}
   <SourceTexture>k__BackingField: {fileID: 0}
   _sourceVideo: {fileID: 32900000, guid: ce9d2374530a54a0ca704a3e76a09868, type: 3}
