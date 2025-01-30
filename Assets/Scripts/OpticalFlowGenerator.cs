@@ -1,9 +1,10 @@
 using UnityEngine;
 using Klak.TestTools;
 
+namespace OpticalFlowTest {
+
 public sealed class OpticalFlowGenerator : MonoBehaviour
 {
-    [SerializeField] Vector2Int _resolution = new Vector2Int(160, 90);
     [SerializeField] ImageSource _source = null;
     [SerializeField] float _frameRate = 30;
 
@@ -22,11 +23,11 @@ public sealed class OpticalFlowGenerator : MonoBehaviour
         _material.grad = new Material(_gradShader);
         _material.flow = new Material(_flowShader);
 
-        var (w, h) = (_resolution.x, _resolution.y);
-        _rt.prev = new RenderTexture(w, h, 0);
-        _rt.curr = new RenderTexture(w, h, 0);
-        _rt.grad = new RenderTexture(w, h, 0, RenderTextureFormat.ARGBHalf);
-        _rt.flow = new RenderTexture(w, h, 0, RenderTextureFormat.RGHalf);
+        var dims = Config.FlowDims;
+        _rt.prev = new RenderTexture(dims.x, dims.y, 0);
+        _rt.curr = new RenderTexture(dims.x, dims.y, 0);
+        _rt.grad = new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.ARGBHalf);
+        _rt.flow = new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.RGHalf);
         _material.grad.SetTexture("_PrevTex", _rt.prev);
     }
 
@@ -52,3 +53,5 @@ public sealed class OpticalFlowGenerator : MonoBehaviour
         Graphics.Blit(_rt.curr, _rt.prev);
     }
 }
+
+} // namespace OpticalFlowTest

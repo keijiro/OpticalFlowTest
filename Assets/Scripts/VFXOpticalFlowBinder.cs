@@ -3,6 +3,8 @@ using UnityEngine.Serialization;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
 
+namespace OpticalFlowTest {
+
 [AddComponentMenu("VFX/Property Binders/Optical Flow Binder")]
 [VFXBinder("Optical Flow")]
 public sealed class VFXOpticalFlowBinder : VFXBinderBase
@@ -25,3 +27,5 @@ public sealed class VFXOpticalFlowBinder : VFXBinderBase
       => $"OpticalFlow : '{Property}' -> " +
          (Target != null ? Target.name : "(null)");
 }
+
+} // namespace OpticalFlowTest

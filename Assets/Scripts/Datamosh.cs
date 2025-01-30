@@ -1,9 +1,11 @@
 using UnityEngine;
+using Unity.Mathematics;
 using Klak.TestTools;
+
+namespace OpticalFlowTest {
 
 public sealed class Datamosh : MonoBehaviour
 {
-    [SerializeField] Vector2Int _resolution = new Vector2Int(1280, 720);
     [SerializeField] ImageSource _source = null;
     [SerializeField] OpticalFlowGenerator _generator = null;
     [SerializeField] float _interval = 1;
@@ -22,9 +24,9 @@ public sealed class Datamosh : MonoBehaviour
         _material.effect = new Material(_effectShader);
         _material.display = new Material(_displayShader);
 
-        var (w, h) = (_resolution.x, _resolution.y);
-        _rt.source = new RenderTexture(w, h, 0);
-        _rt.dest = new RenderTexture(w, h, 0);
+        var dims = Config.SourceDims;
+        _rt.source = new RenderTexture(dims.x, dims.y, 0);
+        _rt.dest = new RenderTexture(dims.x, dims.y, 0);
 
         _rt.source.filterMode = FilterMode.Point;
         _rt.dest.filterMode = FilterMode.Point;
@@ -62,3 +64,5 @@ public sealed class Datamosh : MonoBehaviour
         _rt = (_rt.dest, _rt.source);
     }
 }
+
+} // namespace OpticalFlowTest

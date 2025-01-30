@@ -1,6 +1,8 @@
 using UnityEngine;
 using Klak.TestTools;
 
+namespace OpticalFlowTest {
+
 public sealed class OpticalFlowVisualizer : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
@@ -25,3 +27,5 @@ public sealed class OpticalFlowVisualizer : MonoBehaviour
           (_mesh, transform.localToWorldMatrix, _material, gameObject.layer);
     }
 }
+
+} // namespace OpticalFlowTest
