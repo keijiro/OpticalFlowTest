@@ -6,7 +6,7 @@ namespace OpticalFlowTest {
 public sealed class OpticalFlowVisualizer : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
-    [SerializeField] OpticalFlowGenerator _generator = null;
+    [SerializeField] OpticalFlowEstimator _estimator = null;
 
     [HideInInspector, SerializeField] Mesh _mesh = null;
     [HideInInspector, SerializeField] Shader _shader = null;
@@ -22,7 +22,7 @@ public sealed class OpticalFlowVisualizer : MonoBehaviour
     void Update()
     {
         _material.mainTexture = _source.AsTexture;
-        _material.SetTexture("_FlowTex", _generator.AsRenderTexture);
+        _material.SetTexture("_FlowTex", _estimator.AsRenderTexture);
         Graphics.DrawMesh
           (_mesh, transform.localToWorldMatrix, _material, gameObject.layer);
     }

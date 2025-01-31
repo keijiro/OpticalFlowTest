@@ -7,7 +7,7 @@ namespace OpticalFlowTest {
 public sealed class Datamosh : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
-    [SerializeField] OpticalFlowGenerator _generator = null;
+    [SerializeField] OpticalFlowEstimator _estimator = null;
     [SerializeField] float _interval = 1;
     [SerializeField] float _vectorScale = 2;
 
@@ -39,7 +39,7 @@ public sealed class Datamosh : MonoBehaviour
     {
         _timer -= Time.deltaTime;
 
-        _generator.AsRenderTexture.filterMode = FilterMode.Point;
+        _estimator.AsRenderTexture.filterMode = FilterMode.Point;
 
         if (_timer <= 0)
         {
@@ -48,7 +48,7 @@ public sealed class Datamosh : MonoBehaviour
         }
 
         _material.effect.SetFloat("_VectorScale", _vectorScale);
-        _material.effect.SetTexture("_FlowTex", _generator.AsRenderTexture);
+        _material.effect.SetTexture("_FlowTex", _estimator.AsRenderTexture);
         Graphics.Blit(_rt.src, _rt.dst, _material.effect, 0);
 
         _material.display.mainTexture = _rt.dst;

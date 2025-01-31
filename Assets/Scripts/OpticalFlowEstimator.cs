@@ -3,10 +3,14 @@ using Klak.TestTools;
 
 namespace OpticalFlowTest {
 
-public sealed class OpticalFlowGenerator : MonoBehaviour
+public sealed class OpticalFlowEstimator : MonoBehaviour
 {
+    #region Project asset references
+
     [SerializeField] ImageSource _source = null;
     [SerializeField] float _frameRate = 30;
+
+    #endregion
 
     [SerializeField, HideInInspector] Shader _gradShader = null;
     [SerializeField, HideInInspector] Shader _flowShader = null;

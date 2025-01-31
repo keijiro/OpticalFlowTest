@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 1912508883}
-  _generator: {fileID: 715894857}
+  _estimator: {fileID: 715894857}
   _interval: 1
   _vectorScale: 3
   _effectShader: {fileID: -6465566751694194690, guid: 5a3fcb805ec02411e91c22d58378434b, type: 3}
@@ -199,6 +199,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd72b41aedb74967ae3c21e1f945880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flowDims:
+    x: 160
+    y: 96
+  _blockDims:
+    x: 40
+    y: 24
 --- !u!4 &217150743
 Transform:
   m_ObjectHideFlags: 0
@@ -225,7 +231,7 @@ GameObject:
   - component: {fileID: 715894856}
   - component: {fileID: 715894857}
   m_Layer: 0
-  m_Name: Generator
+  m_Name: Optical Flow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d67d50b89fd444388b8460732ff89ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resolution: {x: 160, y: 96}
   _source: {fileID: 1912508883}
   _frameRate: 25
   _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
@@ -293,7 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 1912508883}
-  _generator: {fileID: 715894857}
+  _estimator: {fileID: 715894857}
   _mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   _shader: {fileID: -6465566751694194690, guid: 16c07cb31dc394130991e653f5967fac, type: 3}
 --- !u!4 &932748369
@@ -359,8 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ExecuteInEditor: 0
-  m_Bindings:
-  - {fileID: 1159107119}
+  m_Bindings: []
   m_VisualEffect: {fileID: 1159107122}
 --- !u!73398921 &1159107121
 VFXRenderer:

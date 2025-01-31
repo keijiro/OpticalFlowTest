@@ -12,7 +12,7 @@ public sealed class VFXOpticalFlowBinder : VFXBinderBase
     [VFXPropertyBinding("UnityEngine.Texture")]
     public ExposedProperty Property = "OpticalFlow";
 
-    public OpticalFlowGenerator Target = null;
+    public OpticalFlowEstimator Target = null;
 
     public override bool IsValid(VisualEffect component)
       => Target != null && component.HasTexture(Property);
