@@ -17,6 +17,14 @@ static class RTUtils
 
     public static RenderTexture AllocHalf2(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.RGHalf);
+
+    public static RenderTexture AllocUAV(int2 dims)
+    {
+        var rt = new RenderTexture(dims.x, dims.y, 0);
+        rt.enableRandomWrite = true;
+        rt.Create();
+        return rt;
+    }
 }
 
 } // namespace OpticalFlowTest

@@ -1,0 +1,37 @@
+#pragma kernel DiffDetector
+
+Texture2D<float4> Current;
+Texture2D<float4> Previous;
+RWTexture2D<float> Output;
+
+static const uint kThreadCount = 64;
+static const uint kPointCount = 32;
+
+groupshared static float line_sum[kThreadCount];
+
+[numthreads(kThreadCount, 1, 1)]
+void DiffDetector(uint tid : SV_DispatchThreadID)
+{
+    uint width, height;
+    Current.GetDimensions(width, height);
+    
+    uint y = tid * height / kThreadCount;
+    float3 sum = 0;
+
+    for (uint i = 0; i < kPointCount; i++)
+    {
+        uint x = i * width / kPointCount;
+        sum += abs(Current[uint2(x, y)] - Previous[uint2(x, y)]).xyz;
+    }
+
+    line_sum[tid] = max(max(sum.x, sum.y), sum.z);
+    
+    GroupMemoryBarrierWithGroupSync();
+
+    if (tid == 0)
+    {
+        float total = 0;
+        for (uint i = 0; i < kThreadCount; i++) total += line_sum[i];
+        Output[uint2(0, 0)] = total > 0;
+    }
+}

@@ -5,7 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - _source: {instanceID: 0}
-  - _ui: {instanceID: 0}
+  - _diffDetector: {fileID: 7200000, guid: 7c4cd51c4330a4a9dbe1249e0ba0db49, type: 3}
   - _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
   - _flowShader: {fileID: -6465566751694194690, guid: 7e70d494781964124a6e29168c25f3c4, type: 3}
   executionOrder: 0
