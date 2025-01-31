@@ -24,10 +24,10 @@ public sealed class OpticalFlowGenerator : MonoBehaviour
         _material.flow = new Material(_flowShader);
 
         var dims = Config.FlowDims;
-        _rt.prev = new RenderTexture(dims.x, dims.y, 0);
-        _rt.curr = new RenderTexture(dims.x, dims.y, 0);
-        _rt.grad = new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.ARGBHalf);
-        _rt.flow = new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.RGHalf);
+        _rt.prev = RTUtils.AllocColor(dims);
+        _rt.curr = RTUtils.AllocColor(dims);
+        _rt.grad = RTUtils.AllocHalf4(dims);
+        _rt.flow = RTUtils.AllocHalf2(dims);
         _material.grad.SetTexture("_PrevTex", _rt.prev);
     }
 

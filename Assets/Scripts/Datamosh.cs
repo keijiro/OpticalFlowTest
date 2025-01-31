@@ -16,28 +16,23 @@ public sealed class Datamosh : MonoBehaviour
     [SerializeField, HideInInspector] Mesh _quadMesh = null;
 
     (Material effect, Material display) _material;
-    (RenderTexture source, RenderTexture dest) _rt;
+    (RenderTexture src, RenderTexture dst) _rt;
     float _timer;
 
     void Start()
     {
         _material.effect = new Material(_effectShader);
         _material.display = new Material(_displayShader);
-
-        var dims = Config.SourceDims;
-        _rt.source = new RenderTexture(dims.x, dims.y, 0);
-        _rt.dest = new RenderTexture(dims.x, dims.y, 0);
-
-        _rt.source.filterMode = FilterMode.Point;
-        _rt.dest.filterMode = FilterMode.Point;
+        _rt.src = RTUtils.AllocColorNoFilter(Config.SourceDims);
+        _rt.dst = RTUtils.AllocColorNoFilter(Config.SourceDims);
     }
 
     void OnDestroy()
     {
         Destroy(_material.effect);
         Destroy(_material.display);
-        Destroy(_rt.source);
-        Destroy(_rt.dest);
+        Destroy(_rt.src);
+        Destroy(_rt.dst);
     }
 
     void Update()
@@ -48,20 +43,20 @@ public sealed class Datamosh : MonoBehaviour
 
         if (_timer <= 0)
         {
-            Graphics.Blit(_source.AsTexture, _rt.source);
+            Graphics.Blit(_source.AsTexture, _rt.src);
             _timer += _interval;
         }
 
         _material.effect.SetFloat("_VectorScale", _vectorScale);
         _material.effect.SetTexture("_FlowTex", _generator.AsRenderTexture);
-        Graphics.Blit(_rt.source, _rt.dest, _material.effect, 0);
+        Graphics.Blit(_rt.src, _rt.dst, _material.effect, 0);
 
-        _material.display.mainTexture = _rt.dest;
+        _material.display.mainTexture = _rt.dst;
         Graphics.DrawMesh
           (_quadMesh, transform.localToWorldMatrix,
            _material.display, gameObject.layer);
 
-        _rt = (_rt.dest, _rt.source);
+        _rt = (_rt.dst, _rt.src);
     }
 }
 
