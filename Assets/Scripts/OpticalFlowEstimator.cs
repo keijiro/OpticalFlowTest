@@ -5,44 +5,56 @@ namespace OpticalFlowTest {
 
 public sealed class OpticalFlowEstimator : MonoBehaviour
 {
-    #region Project asset references
+    #region Scene object references
 
     [SerializeField] ImageSource _source = null;
     [SerializeField] float _frameRate = 30;
 
     #endregion
 
+    #region Project asset references
+
     [SerializeField, HideInInspector] Shader _gradShader = null;
     [SerializeField, HideInInspector] Shader _flowShader = null;
 
-    public RenderTexture AsRenderTexture => _rt.flow;
+    #endregion
+
+    #region Public accessors
+
+    public RenderTexture AsRenderTexture => _output.flow;
+
+    #endregion
+
+    #region Private members
 
     float _elapsed;
     (Material grad, Material flow) _material;
-    (RenderTexture prev, RenderTexture curr,
-     RenderTexture grad, RenderTexture flow) _rt;
+    (RenderTexture prev, RenderTexture cur) _buffer;
+    (RenderTexture grad, RenderTexture flow) _output;
+
+    #endregion
+
+    #region MonoBehaviour implementation
 
     void Start()
     {
         _material.grad = new Material(_gradShader);
         _material.flow = new Material(_flowShader);
-
-        var dims = Config.FlowDims;
-        _rt.prev = RTUtils.AllocColor(dims);
-        _rt.curr = RTUtils.AllocColor(dims);
-        _rt.grad = RTUtils.AllocHalf4(dims);
-        _rt.flow = RTUtils.AllocHalf2(dims);
-        _material.grad.SetTexture("_PrevTex", _rt.prev);
+        _buffer.prev = RTUtils.AllocColor(Config.FlowDims);
+        _buffer.cur  = RTUtils.AllocColor(Config.FlowDims);
+        _output.grad = RTUtils.AllocHalf4(Config.FlowDims);
+        _output.flow = RTUtils.AllocHalf2(Config.FlowDims);
+        _material.grad.SetTexture("_PrevTex", _buffer.prev);
     }
 
     void OnDestroy()
     {
         Destroy(_material.grad);
         Destroy(_material.flow);
-        Destroy(_rt.prev);
-        Destroy(_rt.curr);
-        Destroy(_rt.grad);
-        Destroy(_rt.flow);
+        Destroy(_buffer.prev);
+        Destroy(_buffer.cur);
+        Destroy(_output.grad);
+        Destroy(_output.flow);
     }
 
     void Update()
@@ -51,11 +63,13 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
         if (_elapsed < 1 / _frameRate) return;
         _elapsed -= 1 / _frameRate;
 
-        Graphics.Blit(_source.AsRenderTexture, _rt.curr);
-        Graphics.Blit(_rt.curr, _rt.grad, _material.grad, 0);
-        Graphics.Blit(_rt.grad, _rt.flow, _material.flow, 0);
-        Graphics.Blit(_rt.curr, _rt.prev);
+        Graphics.Blit(_source.AsRenderTexture, _buffer.cur);
+        Graphics.Blit(_buffer.cur, _output.grad, _material.grad, 0);
+        Graphics.Blit(_output.grad, _output.flow, _material.flow, 0);
+        Graphics.Blit(_buffer.cur, _buffer.prev);
     }
+
+    #endregion
 }
 
 } // namespace OpticalFlowTest
