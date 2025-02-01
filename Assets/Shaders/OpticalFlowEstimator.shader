@@ -1,10 +1,9 @@
 Shader "Hidden/OpticalFlowTest/Estimator"
 {
-    HLSLINCLUDE
+HLSLINCLUDE
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 
 Texture2D _MainTex;
 Texture2D _PrevTex;
@@ -100,7 +99,7 @@ float4 FragmentFlow(float4 position : SV_Position,
     return float4(v, 0, _DiffMask[0].x);
 }
 
-    ENDHLSL
+ENDHLSL
 
     SubShader
     {
