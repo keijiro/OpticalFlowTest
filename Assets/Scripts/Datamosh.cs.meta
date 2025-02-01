@@ -4,11 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _source: {instanceID: 0}
-  - _generator: {instanceID: 0}
-  - _effectShader: {fileID: -6465566751694194690, guid: 5a3fcb805ec02411e91c22d58378434b, type: 3}
-  - _displayShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  - _quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  - _imageSource: {instanceID: 0}
+  - _flowSource: {instanceID: 0}
+  - _destination: {instanceID: 0}
+  - _shader: {fileID: 4800000, guid: 95d0e6ccb0d92467b86bc9d4b357b46c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

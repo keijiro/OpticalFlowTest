@@ -6,58 +6,69 @@ namespace OpticalFlowTest {
 
 public sealed class Datamosh : MonoBehaviour
 {
-    [SerializeField] ImageSource _source = null;
-    [SerializeField] OpticalFlowEstimator _estimator = null;
-    [SerializeField] float _interval = 1;
-    [SerializeField] float _vectorScale = 2;
+    #region Scene object references
 
-    [SerializeField, HideInInspector] Shader _effectShader = null;
-    [SerializeField, HideInInspector] Shader _displayShader = null;
-    [SerializeField, HideInInspector] Mesh _quadMesh = null;
+    [SerializeField] ImageSource _imageSource = null;
+    [SerializeField] OpticalFlowEstimator _flowSource = null;
+    [SerializeField] RenderTexture _destination = null;
 
-    (Material effect, Material display) _material;
-    (RenderTexture src, RenderTexture dst) _rt;
+    #endregion
+
+    #region Editable properties
+
+    [field:SerializeField] public float Interval { get; set; } = 1;
+    [field:SerializeField] public float FlowAmplitude { get; set; } = 2;
+
+    #endregion
+
+    #region Project asset references
+
+    [SerializeField, HideInInspector] Shader _shader = null;
+
+    #endregion
+
+    #region Private members
+
+    Blitter _blitter;
+    RenderTexture _buffer;
     float _timer;
+
+    #endregion
+
+    #region MonoBehaviour implementation
 
     void Start()
     {
-        _material.effect = new Material(_effectShader);
-        _material.display = new Material(_displayShader);
-        _rt.src = RTUtil.AllocColorNoFilter(Config.SourceDims);
-        _rt.dst = RTUtil.AllocColorNoFilter(Config.SourceDims);
+        _blitter = new Blitter(_shader);
+        _buffer = RTUtil.AllocColorNoFilter(Config.SourceDims);
     }
 
     void OnDestroy()
     {
-        Destroy(_material.effect);
-        Destroy(_material.display);
-        Destroy(_rt.src);
-        Destroy(_rt.dst);
+        _blitter.Dispose();
+        Destroy(_buffer);
     }
 
     void Update()
     {
         _timer -= Time.deltaTime;
 
-        _estimator.AsRenderTexture.filterMode = FilterMode.Point;
-
-        if (_timer <= 0)
+        if (_timer > 0)
         {
-            Graphics.Blit(_source.AsTexture, _rt.src);
-            _timer += _interval;
+            Graphics.Blit(_destination, _buffer);
+        }
+        else
+        {
+            Graphics.Blit(_imageSource.AsTexture, _buffer);
+            _timer += Interval;
         }
 
-        _material.effect.SetFloat("_VectorScale", _vectorScale);
-        _material.effect.SetTexture("_FlowTex", _estimator.AsRenderTexture);
-        Graphics.Blit(_rt.src, _rt.dst, _material.effect, 0);
-
-        _material.display.mainTexture = _rt.dst;
-        Graphics.DrawMesh
-          (_quadMesh, transform.localToWorldMatrix,
-           _material.display, gameObject.layer);
-
-        _rt = (_rt.dst, _rt.src);
+        _blitter.Material.SetFloat("_FlowAmp", FlowAmplitude);
+        _blitter.Material.SetTexture("_FlowTex", _flowSource.AsRenderTexture);
+        _blitter.Run(_buffer, _destination, 0);
     }
+
+    #endregion
 }
 
 } // namespace OpticalFlowTest
