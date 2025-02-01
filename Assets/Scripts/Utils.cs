@@ -3,6 +3,31 @@ using Unity.Mathematics;
 
 namespace OpticalFlowTest {
 
+// Simple replacement of Graphics.Blit
+class Blitter : System.IDisposable
+{
+    Material _material;
+
+    public Material Material => _material;
+
+    public Blitter(Shader shader)
+      => _material = new Material(shader);
+
+    public void Run(RenderTexture source, RenderTexture dest, int pass)
+    {
+        RenderTexture.active = dest;
+        _material.mainTexture = source;
+        _material.SetPass(pass);
+        Graphics.DrawProceduralNow(MeshTopology.Triangles, 3, 1);
+    }
+
+    public void Dispose()
+    {
+        if (_material != null) Object.Destroy(_material);
+    }
+}
+
+// Render texture allocation utilities
 static class RTUtils
 {
     public static RenderTexture AllocColor(int2 dims)

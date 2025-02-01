@@ -15,8 +15,7 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
     #region Project asset references
 
     [SerializeField, HideInInspector] ComputeShader _diffDetector = null;
-    [SerializeField, HideInInspector] Shader _gradShader = null;
-    [SerializeField, HideInInspector] Shader _flowShader = null;
+    [SerializeField, HideInInspector] Shader _shader = null;
 
     #endregion
 
@@ -28,7 +27,7 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
 
     #region Private members
 
-    (Material grad, Material flow) _material;
+    Blitter _blitter;
     (RenderTexture prev, RenderTexture cur) _buffer;
     (RenderTexture grad, RenderTexture flow) _output;
     RenderTexture _diffMask;
@@ -39,8 +38,7 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
 
     void Start()
     {
-        _material.grad = new Material(_gradShader);
-        _material.flow = new Material(_flowShader);
+        _blitter = new Blitter(_shader);
         _buffer.prev = RTUtils.AllocColor(Config.FlowDims);
         _buffer.cur  = RTUtils.AllocColor(Config.FlowDims);
         _output.grad = RTUtils.AllocHalf4(Config.FlowDims);
@@ -51,8 +49,7 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
 
     void OnDestroy()
     {
-        Destroy(_material.grad);
-        Destroy(_material.flow);
+        _blitter.Dispose();
         Destroy(_buffer.prev);
         Destroy(_buffer.cur);
         Destroy(_output.grad);
@@ -69,11 +66,11 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
         _diffDetector.SetTexture(0, "Output", _diffMask);
         _diffDetector.Dispatch(0, 1, 1, 1);
 
-        _material.grad.SetTexture("_PrevTex", _buffer.prev);
-        _material.grad.SetTexture("_DiffMask", _diffMask);
-        Graphics.Blit(_buffer.cur, _output.grad, _material.grad, 0);
+        _blitter.Material.SetTexture("_PrevTex", _buffer.prev);
+        _blitter.Material.SetTexture("_DiffMask", _diffMask);
+        _blitter.Run(_buffer.cur, _output.grad, 0);
 
-        Graphics.Blit(_output.grad, _output.flow, _material.flow, 0);
+        _blitter.Run(_output.grad, _output.flow, 1);
 
         _buffer = (_buffer.cur, _buffer.prev);
     }

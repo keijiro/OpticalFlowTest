@@ -266,8 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _source: {fileID: 1912508883}
   _diffDetector: {fileID: 7200000, guid: 7c4cd51c4330a4a9dbe1249e0ba0db49, type: 3}
-  _gradShader: {fileID: -6465566751694194690, guid: 824a11e0fa9f747c4b30f9eb7da008b2, type: 3}
-  _flowShader: {fileID: -6465566751694194690, guid: 7e70d494781964124a6e29168c25f3c4, type: 3}
+  _shader: {fileID: 4800000, guid: 1d8652daa77dd4de2985e6073b945547, type: 3}
 --- !u!1 &932748367
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,8 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ExecuteInEditor: 0
-  m_Bindings:
-  - {fileID: 1159107119}
+  m_Bindings: []
   m_VisualEffect: {fileID: 1159107122}
 --- !u!73398921 &1159107121
 VFXRenderer:
