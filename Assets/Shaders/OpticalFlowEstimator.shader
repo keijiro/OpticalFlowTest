@@ -9,11 +9,12 @@ Shader "Hidden/OpticalFlowTest/Estimator"
 
 TEXTURE2D(_MainTex);
 TEXTURE2D(_PrevTex);
-TEXTURE2D(_DiffMask);
 SAMPLER(sampler_MainTex);
 SAMPLER(sampler_PrevTex);
 float4 _MainTex_TexelSize;
 float4 _PrevTex_TexelSize;
+
+StructuredBuffer<float4> _DiffMask;
 
 void Vertex(uint vertexID : VERTEXID_SEMANTIC,
             out float4 outPosition : SV_Position,
@@ -39,8 +40,7 @@ float4 FragmentFlow(float4 position : SV_Position,
     UnityTexture2D mainTex = UnityBuildTexture2DStructNoScale(_MainTex);
     float3 output;
     OF_LucasKanade_float(mainTex, texCoord, output);
-    float mask = _DiffMask[uint2(0, 0)].r;
-    return float4(output, mask);
+    return float4(output, _DiffMask[0].x);
 }
 
     ENDHLSL

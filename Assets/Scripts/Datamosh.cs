@@ -23,8 +23,8 @@ public sealed class Datamosh : MonoBehaviour
     {
         _material.effect = new Material(_effectShader);
         _material.display = new Material(_displayShader);
-        _rt.src = RTUtils.AllocColorNoFilter(Config.SourceDims);
-        _rt.dst = RTUtils.AllocColorNoFilter(Config.SourceDims);
+        _rt.src = RTUtil.AllocColorNoFilter(Config.SourceDims);
+        _rt.dst = RTUtil.AllocColorNoFilter(Config.SourceDims);
     }
 
     void OnDestroy()

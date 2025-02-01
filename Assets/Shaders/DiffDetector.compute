@@ -2,7 +2,7 @@
 
 Texture2D<float4> Current;
 Texture2D<float4> Previous;
-RWTexture2D<float> Output;
+RWStructuredBuffer<float4> Output;
 
 static const uint kThreadCount = 64;
 static const uint kPointCount = 32;
@@ -32,6 +32,6 @@ void DiffDetector(uint tid : SV_DispatchThreadID)
     {
         float total = 0;
         for (uint i = 0; i < kThreadCount; i++) total += line_sum[i];
-        Output[uint2(0, 0)] = total > 0;
+        Output[0] = total > 0;
     }
 }

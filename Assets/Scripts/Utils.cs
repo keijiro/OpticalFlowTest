@@ -27,8 +27,8 @@ class Blitter : System.IDisposable
     }
 }
 
-// Render texture allocation utilities
-static class RTUtils
+// Render texture allocation utility
+static class RTUtil
 {
     public static RenderTexture AllocColor(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0);
@@ -50,6 +50,13 @@ static class RTUtils
         rt.Create();
         return rt;
     }
+}
+
+// Graphics buffer allocation utility
+static class GpuBufferUtil
+{
+    unsafe public static GraphicsBuffer Alloc<T>(int count) where T : unmanaged
+      => new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, sizeof(T));
 }
 
 } // namespace OpticalFlowTest
