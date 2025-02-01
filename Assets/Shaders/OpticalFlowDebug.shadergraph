@@ -8,6 +8,9 @@
         },
         {
             "m_Id": "62afd73cab6442e9a5cab7330d585a6d"
+        },
+        {
+            "m_Id": "a8985335b1864663b39ff33acec790c5"
         }
     ],
     "m_Keywords": [],
@@ -41,6 +44,9 @@
         },
         {
             "m_Id": "4731e9568ed84a44990693f0925c0a56"
+        },
+        {
+            "m_Id": "5bb1f4519f7341a4aded7f6eeaabf54e"
         }
     ],
     "m_GroupDatas": [],
@@ -58,6 +64,20 @@
                     "m_Id": "8e474c9561c640a189de8704d0a03562"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "5bb1f4519f7341a4aded7f6eeaabf54e"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "8e474c9561c640a189de8704d0a03562"
+                },
+                "m_SlotId": 4
             }
         },
         {
@@ -150,6 +170,21 @@
             "m_Id": "466cdfd38d7041e6bd63888c6e0c821c"
         }
     ]
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "09c8b267a83e44949c52ccc1d225c490",
+    "m_Id": 0,
+    "m_DisplayName": "Intensity",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -362,6 +397,42 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "5bb1f4519f7341a4aded7f6eeaabf54e",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -506.5000305175781,
+            "y": 366.0,
+            "width": 120.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "09c8b267a83e44949c52ccc1d225c490"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "a8985335b1864663b39ff33acec790c5"
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "5f04b215390548b6ad07965b399d50c3",
     "m_Group": {
         "m_Id": ""
@@ -557,6 +628,9 @@
             "m_Id": "195b0294fe7945fd8968120746ef8e04"
         },
         {
+            "m_Id": "97e83cf5577c432faa889b7055f73fe2"
+        },
+        {
             "m_Id": "bb0824fa9bc64cffb459dbf2d80b0e2e"
         }
     ],
@@ -575,7 +649,22 @@
     "m_FunctionName": "VisualizeFlow",
     "m_FunctionSource": "",
     "m_FunctionSourceUsePragmas": true,
-    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(ColorTex, UV).rgb);\nfloat2 flow = tex2D(FlowTex, UV).xy;\n\nfloat dir = atan2(flow.y, flow.x);\nfloat hue = (dir / PI + 1) / 2;\n\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * 0.25;\n\nOutput = SRGBToLinear((c1 + c2) / 2);"
+    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(ColorTex, UV).rgb);\nfloat2 flow = tex2D(FlowTex, UV).xy;\n\nfloat dir = atan2(flow.y, flow.x);\nfloat hue = (dir / PI + 1) / 2;\n\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * Intensity;\n\nOutput = SRGBToLinear((c1 + c2) / 2);"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "97e83cf5577c432faa889b7055f73fe2",
+    "m_Id": 4,
+    "m_DisplayName": "Intensity",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Intensity",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -667,6 +756,34 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "a8985335b1864663b39ff33acec790c5",
+    "m_Guid": {
+        "m_GuidSerialized": "e7fc5867-0c1c-45be-bf95-e603ffc8907b"
+    },
+    "m_Name": "Intensity",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Intensity",
+    "m_DefaultReferenceName": "_Intensity",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "a9fdb11f40b4482c80687b60588ff03a",
@@ -732,6 +849,9 @@
         },
         {
             "m_Id": "62afd73cab6442e9a5cab7330d585a6d"
+        },
+        {
+            "m_Id": "a8985335b1864663b39ff33acec790c5"
         }
     ]
 }
