@@ -66,9 +66,9 @@ public sealed class OpticalFlowEstimator : MonoBehaviour
         _diffDetector.Dispatch(0, 1, 1, 1);
 
         _blitter.Material.SetTexture("_PrevTex", _buffer.prev);
-        _blitter.Material.SetBuffer("_DiffMask", _diffMask);
         _blitter.Run(_buffer.cur, _output.grad, 0);
 
+        _blitter.Material.SetBuffer("_DiffMask", _diffMask);
         _blitter.Run(_output.grad, _output.flow, 1);
 
         _buffer = (_buffer.cur, _buffer.prev);
