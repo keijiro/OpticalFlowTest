@@ -23,6 +23,7 @@ public sealed class Datamosh : MonoBehaviour
 
     #region Project asset references
 
+    [SerializeField, HideInInspector] ComputeShader _compute = null;
     [SerializeField, HideInInspector] Shader _shader = null;
 
     #endregion
@@ -30,7 +31,7 @@ public sealed class Datamosh : MonoBehaviour
     #region Private members
 
     Blitter _blitter;
-    RenderTexture _buffer;
+    (RenderTexture flow, RenderTexture buffer) _rt;
     float _timer;
 
     #endregion
@@ -40,13 +41,15 @@ public sealed class Datamosh : MonoBehaviour
     void Start()
     {
         _blitter = new Blitter(_shader);
-        _buffer = RTUtil.AllocColorNoFilter(Config.SourceDims);
+        _rt.flow = RTUtil.AllocHalf2UAV(Config.BlockDims);
+        _rt.buffer = RTUtil.AllocColorNoFilter(Config.SourceDims);
     }
 
     void OnDestroy()
     {
         _blitter.Dispose();
-        Destroy(_buffer);
+        Destroy(_rt.flow);
+        Destroy(_rt.buffer);
     }
 
     void Update()
@@ -55,17 +58,24 @@ public sealed class Datamosh : MonoBehaviour
 
         if (_timer > 0)
         {
-            Graphics.Blit(_destination, _buffer);
+            Graphics.Blit(_destination, _rt.buffer);
         }
         else
         {
-            Graphics.Blit(_imageSource.AsTexture, _buffer);
+            Graphics.Blit(_imageSource.AsTexture, _rt.buffer);
             _timer += Interval;
         }
 
+        // Flow map downsampling
+        _compute.SetTexture(0, "FlowMap", _flowSource.AsRenderTexture);
+        _compute.SetTexture(0, "Output", _rt.flow);
+        _compute.SetInt("Stride", Config.FlowDims.x / Config.BlockDims.x);
+        _compute.DispatchThreads(0, Config.BlockDims);
+
+        // Datamosh pass
+        _blitter.Material.SetTexture("_FlowTex", _rt.flow);
         _blitter.Material.SetFloat("_FlowAmp", FlowAmplitude);
-        _blitter.Material.SetTexture("_FlowTex", _flowSource.AsRenderTexture);
-        _blitter.Run(_buffer, _destination, 0);
+        _blitter.Run(_rt.buffer, _destination, 0);
     }
 
     #endregion

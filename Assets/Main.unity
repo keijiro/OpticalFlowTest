@@ -153,6 +153,7 @@ MonoBehaviour:
   _destination: {fileID: 8400000, guid: b3d4751a933f34629a34d9cb41200d50, type: 2}
   <Interval>k__BackingField: 1
   <FlowAmplitude>k__BackingField: 3
+  _compute: {fileID: 7200000, guid: 2de73854e7f3b4cdb99e5aac7c24a592, type: 3}
   _shader: {fileID: 4800000, guid: 95d0e6ccb0d92467b86bc9d4b357b46c, type: 3}
 --- !u!4 &123938094
 Transform:

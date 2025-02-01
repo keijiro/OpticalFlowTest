@@ -1,0 +1,24 @@
+#pragma kernel FlowDownsampler
+
+Texture2D<float2> FlowMap;
+RWTexture2D<float2> Output;
+uint Stride;
+
+[numthreads(8, 8, 1)]
+void FlowDownsampler(uint2 tid : SV_DispatchThreadID)
+{
+    uint2 tc = tid * Stride;
+    float3 cand = 0;
+
+    for (uint y = 0; y < Stride; y++)
+    {
+        for (uint x = 0; x < Stride; x++)
+        {
+            float2 vec = FlowMap[tc + uint2(x, y)];
+            float len = length(vec);
+            if (len > cand.z) cand = float3(vec, len);
+        }
+    }
+
+    Output[tid] = cand.xy;
+}

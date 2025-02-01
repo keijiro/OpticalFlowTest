@@ -5,10 +5,8 @@ HLSLINCLUDE
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-sampler2D _MainTex;
-float4 _MainTex_TexelSize;
-
-sampler2D _FlowTex;
+Texture2D _MainTex;
+Texture2D _FlowTex;
 float _FlowAmp;
 
 void Vertex(uint vertexID : VERTEXID_SEMANTIC,
@@ -19,12 +17,29 @@ void Vertex(uint vertexID : VERTEXID_SEMANTIC,
     outTexCoord = GetFullScreenTriangleTexCoord(vertexID);
 }
 
-float4 FragmentUpdate(float4 position : SV_Position,
-                      float2 texCoord : TEXCOORD) : SV_Target
+float4 Fragment(float4 position : SV_Position,
+                float2 texCoord : TEXCOORD) : SV_Target
 {
-    float2 low_uv = round(texCoord * float2(40, 24)) / float2(40, 24);
-    float2 vec = tex2D(_FlowTex, low_uv).xy;
-    return tex2D(_MainTex, texCoord + _MainTex_TexelSize.xy * vec * -_FlowAmp);
+    float2 vec;
+
+    // Flow map sampling
+    {
+        uint w, h;
+        _FlowTex.GetDimensions(w, h);
+
+        int2 tc = texCoord.xy * float2(w, h);
+        vec = _FlowTex[tc].xy;
+    }
+
+    // Source color sampling
+    {
+        uint w, h;
+        _MainTex.GetDimensions(w, h);
+
+        int2 tc = texCoord * float2(w, h) - vec * _FlowAmp;
+        tc = min(max(tc, 0), int2(w, h) - 1);
+        return _MainTex[tc];
+    }
 }
 
 ENDHLSL
@@ -36,7 +51,7 @@ ENDHLSL
             ZTest Always ZWrite Off Cull Off Blend Off
             HLSLPROGRAM
             #pragma vertex Vertex
-            #pragma fragment FragmentUpdate
+            #pragma fragment Fragment
             ENDHLSL
         }
     }

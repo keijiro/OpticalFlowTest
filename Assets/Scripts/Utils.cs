@@ -43,13 +43,40 @@ static class RTUtil
     public static RenderTexture AllocHalf2(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.RGHalf);
 
-    public static RenderTexture AllocUAV(int2 dims)
+    public static RenderTexture AllocColorUAV(int2 dims)
     {
-        var rt = new RenderTexture(dims.x, dims.y, 0);
+        var rt = AllocColor(dims);
         rt.enableRandomWrite = true;
         rt.Create();
         return rt;
     }
+
+    public static RenderTexture AllocHalf2UAV(int2 dims)
+    {
+        var rt = AllocHalf2(dims);
+        rt.enableRandomWrite = true;
+        rt.Create();
+        return rt;
+    }
+}
+
+// Extension methods for ComputeShader
+static class ComputeShaderExtensions
+{
+    public static void DispatchThreads
+      (this ComputeShader compute, int kernel, int x, int y, int z)
+    {
+        uint xc, yc, zc;
+        compute.GetKernelThreadGroupSizes(kernel, out xc, out yc, out zc);
+        x = (x + (int)xc - 1) / (int)xc;
+        y = (y + (int)yc - 1) / (int)yc;
+        z = (z + (int)zc - 1) / (int)zc;
+        compute.Dispatch(kernel, x, y, z);
+    }
+
+    public static void DispatchThreads
+      (this ComputeShader compute, int kernel, int2 v)
+      => DispatchThreads(compute, kernel, v.x, v.y, 1);
 }
 
 // Graphics buffer allocation utility
