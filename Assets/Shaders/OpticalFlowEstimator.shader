@@ -6,13 +6,8 @@ Shader "Hidden/OpticalFlowTest/Estimator"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 
-TEXTURE2D(_MainTex);
-TEXTURE2D(_PrevTex);
-SAMPLER(sampler_MainTex);
-SAMPLER(sampler_PrevTex);
-float4 _MainTex_TexelSize;
-float4 _PrevTex_TexelSize;
-
+Texture2D _MainTex;
+Texture2D _PrevTex;
 StructuredBuffer<float4> _DiffMask;
 
 static const int kWindowWidth = 5;
@@ -44,19 +39,33 @@ void Vertex(uint vertexID : VERTEXID_SEMANTIC,
 float4 FragmentGrad(float4 position : SV_Position,
                     float2 texCoord : TEXCOORD) : SV_Target
 {
-    float3 duv = float3(_MainTex_TexelSize.xy, 0);
-    float cur = Luminance(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texCoord).rgb);
-    float pre = Luminance(SAMPLE_TEXTURE2D(_PrevTex, sampler_PrevTex, texCoord).rgb);
-    float x_n = Luminance(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texCoord - duv.xz).rgb);
-    float x_p = Luminance(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texCoord + duv.xz).rgb);
-    float y_n = Luminance(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texCoord - duv.zy).rgb);
-    float y_p = Luminance(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, texCoord + duv.zy).rgb);
+    uint w, h;
+    _MainTex.GetDimensions(w, h);
+
+    // Offset with boundaries
+    uint2 tc = texCoord.xy * float2(w, h);
+    uint2 tc_n = max(tc, 1) - 1;
+    uint2 tc_p = min(tc + 1, uint2(w, h) - 1);
+
+    // Sample points
+    float cur = Luminance(_MainTex[tc].rgb);
+    float pre = Luminance(_PrevTex[tc].rgb);
+    float x_n = Luminance(_MainTex[uint2(tc_n.x, tc.y)].rgb);
+    float x_p = Luminance(_MainTex[uint2(tc_p.x, tc.y)].rgb);
+    float y_n = Luminance(_MainTex[uint2(tc.x, tc_n.y)].rgb);
+    float y_p = Luminance(_MainTex[uint2(tc.x, tc_p.y)].rgb);
+
     return float4((x_p - x_n) / 2, (y_p - y_n) / 2, cur - pre, 1);
 }
 
 float4 FragmentFlow(float4 position : SV_Position,
                     float2 texCoord : TEXCOORD) : SV_Target
 {
+    uint w, h;
+    _MainTex.GetDimensions(w, h);
+
+    int2 org = texCoord.xy * float2(w, h);
+
     float2x2 ATWA = 0;
     float2 ATWb = 0;
 
@@ -64,11 +73,11 @@ float4 FragmentFlow(float4 position : SV_Position,
     {
         for (int xi = -kWindowWidth; xi <= kWindowWidth; xi++)
         {
-            // Offset UV
-            float2 uv = texCoord + _MainTex_TexelSize.xy * float2(xi, yi);
+            // Offset with boundaries
+            int2 tc = min(max(org + int2(xi, yi), 0), int2(w, h) - 1);
 
             // Gradients
-            float3 I = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv).xyz;
+            float3 I = _MainTex[tc].xyz;
 
             // Gaussian weight
             float w = GaussWeight(xi, yi);
