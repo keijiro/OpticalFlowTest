@@ -1,0 +1,51 @@
+#pragma kernel BlockNoiseGenerator
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Random.hlsl"
+
+RWTexture2D<float> Output;
+uint Seed;
+
+static const uint kBufferSize = 256;
+
+void ClearBuffer(inout float buffer[kBufferSize])
+{
+    for (uint i = 0; i < kBufferSize; i++) buffer[i] = 0;
+}
+
+void FillPixels(inout float buffer[kBufferSize], uint x, uint stride)
+{
+    x &= kBufferSize - 1;
+    stride &= 15;
+    for (uint i = x; i < min(kBufferSize, x + stride); i++) buffer[i] = 1;
+}
+
+[numthreads(24, 1, 1)]
+void BlockNoiseGenerator(uint tid : SV_DispatchThreadID)
+{
+    uint w, h;
+    Output.GetDimensions(w, h);
+
+    uint seed2 = tid * 8;
+
+    uint x1 = JenkinsHash(uint2(Seed, seed2 + 0));
+    uint x2 = JenkinsHash(uint2(Seed, seed2 + 1));
+    uint x3 = JenkinsHash(uint2(Seed, seed2 + 2));
+    uint x4 = JenkinsHash(uint2(Seed, seed2 + 3));
+
+    uint s1 = JenkinsHash(uint2(Seed, seed2 + 4));
+    uint s2 = JenkinsHash(uint2(Seed, seed2 + 5));
+    uint s3 = JenkinsHash(uint2(Seed, seed2 + 6));
+    uint s4 = JenkinsHash(uint2(Seed, seed2 + 7));
+
+    float buffer[kBufferSize];
+    ClearBuffer(buffer);
+    FillPixels(buffer, x1, s1);
+    FillPixels(buffer, x2, s2);
+    FillPixels(buffer, x3, s3);
+    FillPixels(buffer, x4, s4);
+
+    uint offset = (kBufferSize - w) / 2;
+    for (uint x = 0; x < w; x++)
+        Output[uint2(x, tid)] = buffer[x + offset];
+}

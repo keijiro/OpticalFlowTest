@@ -37,6 +37,13 @@ static class RTUtil
       => new RenderTexture(dims.x, dims.y, 0)
            { filterMode = FilterMode.Point };
 
+    public static RenderTexture AllocSingle(int2 dims)
+      => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.R8);
+
+    public static RenderTexture AllocSingleNoFilter(int2 dims)
+      => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.R8)
+           { filterMode = FilterMode.Point };
+
     public static RenderTexture AllocHalf4(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.ARGBHalf);
 
@@ -46,6 +53,22 @@ static class RTUtil
     public static RenderTexture AllocColorUAV(int2 dims)
     {
         var rt = AllocColor(dims);
+        rt.enableRandomWrite = true;
+        rt.Create();
+        return rt;
+    }
+
+    public static RenderTexture AllocSingleUAV(int2 dims)
+    {
+        var rt = AllocSingle(dims);
+        rt.enableRandomWrite = true;
+        rt.Create();
+        return rt;
+    }
+
+    public static RenderTexture AllocSingleNoFilterUAV(int2 dims)
+    {
+        var rt = AllocSingleNoFilter(dims);
         rt.enableRandomWrite = true;
         rt.Create();
         return rt;
@@ -77,6 +100,10 @@ static class ComputeShaderExtensions
     public static void DispatchThreads
       (this ComputeShader compute, int kernel, int2 v)
       => DispatchThreads(compute, kernel, v.x, v.y, 1);
+
+    public static void DispatchThreads
+      (this ComputeShader compute, int kernel, int x)
+      => DispatchThreads(compute, kernel, x, 1, 1);
 }
 
 // Graphics buffer allocation utility
