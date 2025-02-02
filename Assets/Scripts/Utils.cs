@@ -37,10 +37,10 @@ static class RTUtil
       => new RenderTexture(dims.x, dims.y, 0)
            { filterMode = FilterMode.Point };
 
-    public static RenderTexture AllocSingle(int2 dims)
+    public static RenderTexture AllocInt(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.R8);
 
-    public static RenderTexture AllocSingleNoFilter(int2 dims)
+    public static RenderTexture AllocIntNoFilter(int2 dims)
       => new RenderTexture(dims.x, dims.y, 0, RenderTextureFormat.R8)
            { filterMode = FilterMode.Point };
 
@@ -58,17 +58,17 @@ static class RTUtil
         return rt;
     }
 
-    public static RenderTexture AllocSingleUAV(int2 dims)
+    public static RenderTexture AllocIntUAV(int2 dims)
     {
-        var rt = AllocSingle(dims);
+        var rt = AllocInt(dims);
         rt.enableRandomWrite = true;
         rt.Create();
         return rt;
     }
 
-    public static RenderTexture AllocSingleNoFilterUAV(int2 dims)
+    public static RenderTexture AllocIntNoFilterUAV(int2 dims)
     {
-        var rt = AllocSingleNoFilter(dims);
+        var rt = AllocIntNoFilter(dims);
         rt.enableRandomWrite = true;
         rt.Create();
         return rt;

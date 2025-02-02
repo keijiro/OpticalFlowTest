@@ -28,20 +28,17 @@ void Vertex(uint vertexID : VERTEXID_SEMANTIC,
     outTexCoord = GetFullScreenTriangleTexCoord(vertexID);
 }
 
-float4 FragmentCopy(float4 position : SV_Position,
-                    float2 texCoord : TEXCOORD) : SV_Target
-{
-    return 0;
-}
-
-float4 FragmentUpdate(float4 position : SV_Position,
-                      float2 texCoord : TEXCOORD) : SV_Target
+float4 Fragment(float4 position : SV_Position,
+                float2 texCoord : TEXCOORD) : SV_Target
 {
     float2 vec = SamplePoint(_FlowTex, texCoord, 0).xy;
-    float mask = SamplePoint(_NoiseTex, texCoord, 0).x;
+    float fmask = SamplePoint(_NoiseTex, texCoord, 0).x;
     float3 src = SamplePoint(_SourceTex, texCoord, 0).rgb;
     float3 flow = SamplePoint(_MainTex, texCoord, vec * -_FlowAmp).rgb;
-    return float4(mask > 0 ? src : flow, 1);
+    uint mask = fmask * 255;
+    float3 output = (mask & 1u) ? src : flow;
+    output = (mask & 4u) ? 0.5 - output.zxy : output;
+    return float4(output, 1);
 }
 
 ENDHLSL
@@ -53,15 +50,7 @@ ENDHLSL
             ZTest Always ZWrite Off Cull Off Blend Off
             HLSLPROGRAM
             #pragma vertex Vertex
-            #pragma fragment FragmentCopy
-            ENDHLSL
-        }
-        Pass
-        {
-            ZTest Always ZWrite Off Cull Off Blend Off
-            HLSLPROGRAM
-            #pragma vertex Vertex
-            #pragma fragment FragmentUpdate
+            #pragma fragment Fragment
             ENDHLSL
         }
     }

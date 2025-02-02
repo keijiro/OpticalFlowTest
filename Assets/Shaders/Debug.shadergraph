@@ -769,7 +769,7 @@
     "m_FunctionName": "VisualizeFlow",
     "m_FunctionSource": "",
     "m_FunctionSourceUsePragmas": true,
-    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(ImageSource, UV).rgb);\n\nfloat2 flow = tex2D(OpticalFlow, UV).xy;\nfloat dir = atan2(flow.y, flow.x);\nfloat hue = (dir / PI + 1) / 2;\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * FlowIntensity;\n\nfloat glitch = tex2D(BlockNoise, UV).x;\nfloat3 c3 = glitch > 0;\n\nOutput = SRGBToLinear((c1 + c2 + c3) / 3);"
+    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(ImageSource, UV).rgb);\n\nfloat2 flow = tex2D(OpticalFlow, UV).xy;\nfloat dir = atan2(flow.y, flow.x);\nfloat hue = (dir / PI + 1) / 2;\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * FlowIntensity;\n\nfloat glitch = tex2D(BlockNoise, UV).x;\nfloat3 c3 = glitch > 0 ? float3(1, glitch, glitch) : 0;\n\nOutput = SRGBToLinear((c1 + c2 + c3) / 3);"
 }
 
 {

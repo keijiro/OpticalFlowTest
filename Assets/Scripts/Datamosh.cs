@@ -33,7 +33,6 @@ public sealed class Datamosh : MonoBehaviour
 
     Blitter _blitter;
     (RenderTexture flow, RenderTexture buffer) _rt;
-    float _timer;
 
     #endregion
 
@@ -55,20 +54,7 @@ public sealed class Datamosh : MonoBehaviour
 
     void Update()
     {
-        /*
-        _timer -= Time.deltaTime;
-
-        if (_timer > 0)
-        {
-            Graphics.Blit(_destination, _rt.buffer);
-        }
-        else
-        {
-            Graphics.Blit(_imageSource.AsTexture, _rt.buffer);
-            _timer += Interval;
-        }
-        */
-
+        // Feedback
         Graphics.Blit(_destination, _rt.buffer);
 
         // Flow map downsampling
@@ -82,7 +68,7 @@ public sealed class Datamosh : MonoBehaviour
         _blitter.Material.SetTexture("_FlowTex", _rt.flow);
         _blitter.Material.SetTexture("_NoiseTex", _blockNoise.AsRenderTexture);
         _blitter.Material.SetFloat("_FlowAmp", FlowAmplitude);
-        _blitter.Run(_rt.buffer, _destination, 1);
+        _blitter.Run(_rt.buffer, _destination, 0);
     }
 
     #endregion
