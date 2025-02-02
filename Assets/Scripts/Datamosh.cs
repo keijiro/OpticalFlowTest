@@ -9,8 +9,8 @@ public sealed class Datamosh : MonoBehaviour
     #region Scene object references
 
     [SerializeField] ImageSource _imageSource = null;
+    [SerializeField] BlockPicker _blockPicker = null;
     [SerializeField] OpticalFlowEstimator _flowSource = null;
-    [SerializeField] BlockPicker _picker = null;
     [SerializeField] RenderTexture _destination = null;
 
     #endregion
@@ -66,7 +66,7 @@ public sealed class Datamosh : MonoBehaviour
         // Datamosh pass
         _blitter.Material.SetTexture("_SourceTex", _imageSource.AsTexture);
         _blitter.Material.SetTexture("_FlowTex", _rt.flow);
-        _blitter.Material.SetTexture("_NoiseTex", _picker.AsRenderTexture);
+        _blitter.Material.SetTexture("_BlockTex", _blockPicker.AsRenderTexture);
         _blitter.Material.SetFloat("_FlowAmp", FlowAmplitude);
         _blitter.Run(_rt.buffer, _destination, 0);
     }

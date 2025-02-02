@@ -32,16 +32,19 @@ void RunRandomFill(uint thread_id)
     {
         // Per-iteration random values
         uint r1 = JenkinsHash(uint2(Seed, seed2++));
-        uint r2 = JenkinsHash(uint2(Seed, seed2++));
-        uint r3 = JenkinsHash(uint2(Seed, seed2++));
+        float r2 = ConstructFloat(JenkinsHash(uint2(Seed, seed2++)));
+        float r3 = ConstructFloat(JenkinsHash(uint2(Seed, seed2++)));
+
+        // Exponential distribution of floating point random values
+        r2 = r2 * r2 * r2 * r2 * r2 * r2;
+        r3 = r3 * r3 * r3 * r3 * r3 * r3;
 
         // Bit selection
-        float r3_fp = pow(ConstructFloat(r3), 2);
-        uint bit = 1u << (uint)(r3_fp * 8);
+        uint bit = 1u << (uint)(r3 * 8);
 
         // Fill range
         uint start = r1 & (kBufferSize - 1);
-        uint end = min(start + (r2 & 31), kBufferSize);
+        uint end = min(start + (uint)(r2 * 50), kBufferSize);
 
         // Fill
         for (uint j = start; j < end; j++) shared_buffer[j] |= bit;

@@ -53,7 +53,7 @@ public sealed class BlockPicker : MonoBehaviour
         // Timer
         _timer -= Time.deltaTime;
         if (_timer > 0) return;
-        _timer = Mathf.Pow(Random.value, 4) * 0.1f;
+        _timer = Mathf.Pow(Random.value, 4) * 0.3f;
 
         // Zero clear
         Graphics.Blit(Texture2D.blackTexture, _rt);
@@ -61,6 +61,7 @@ public sealed class BlockPicker : MonoBehaviour
         // Random fill
         _compute.SetInt("Seed", Time.frameCount);
         _compute.SetInt("Iteration", Iteration);
+        _compute.SetInt("Iteration", Random.Range(1, 30));
         _compute.SetTexture(0, "Output", _rt);
         _compute.Dispatch(0, _dispatchCount, 1, 1);
     }
