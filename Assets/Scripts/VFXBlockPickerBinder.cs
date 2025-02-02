@@ -5,14 +5,14 @@ using UnityEngine.VFX.Utility;
 
 namespace OpticalFlowTest {
 
-[AddComponentMenu("VFX/Property Binders/Block noise Binder")]
-[VFXBinder("Block Noise")]
-public sealed class VFXBlockNoiseBinder : VFXBinderBase
+[AddComponentMenu("VFX/Property Binders/Block Picker Binder")]
+[VFXBinder("Block Picker")]
+public sealed class VFXBlockBinder : VFXBinderBase
 {
     [VFXPropertyBinding("UnityEngine.Texture")]
-    public ExposedProperty Property = "BlockNoise";
+    public ExposedProperty Property = "Block";
 
-    public BlockNoiseGenerator Target = null;
+    public BlockPicker Target = null;
 
     public override bool IsValid(VisualEffect component)
       => Target != null && component.HasTexture(Property);
@@ -24,7 +24,7 @@ public sealed class VFXBlockNoiseBinder : VFXBinderBase
     }
 
     public override string ToString()
-      => $"BlockNoise : '{Property}' -> " +
+      => $"BlockPicker : '{Property}' -> " +
          (Target != null ? Target.name : "(null)");
 }
 

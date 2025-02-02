@@ -2,17 +2,11 @@ using UnityEngine;
 
 namespace OpticalFlowTest {
 
-public sealed class BlockNoiseGenerator : MonoBehaviour
+public sealed class BlockPicker : MonoBehaviour
 {
-    #region Project asset references
-
-    [SerializeField] ComputeShader _compute = null;
-
-    #endregion
-
     #region Editable properties
 
-    [field:SerializeField] int Iteration { get; set;} = 4;
+    [field:SerializeField] int Iteration { get; set; } = 2;
 
     #endregion
 
@@ -22,13 +16,19 @@ public sealed class BlockNoiseGenerator : MonoBehaviour
 
     #endregion
 
+    #region Project asset references
+
+    [SerializeField] ComputeShader _compute = null;
+
+    #endregion
+
     #region Private members
 
     // This value must match kBufferSize in the compute shader.
-    const int ThreadBufferSize = 1024;
+    const int ThreadGroupBufferSize = 1024;
 
     RenderTexture _rt;
-    int _threadCount;
+    int _dispatchCount;
     float _timer;
 
     #endregion
@@ -39,11 +39,14 @@ public sealed class BlockNoiseGenerator : MonoBehaviour
     {
         var dims = Config.BlockDims;
         _rt = RTUtil.AllocIntNoFilterUAV(dims);
-        _threadCount = (dims.x * dims.y - 1) / ThreadBufferSize + 1;
+        _dispatchCount = (dims.x * dims.y - 1) / ThreadGroupBufferSize + 1;
     }
 
     void OnDestroy()
       => Destroy(_rt);
+
+    void OnValidate()
+      => Iteration = Mathf.Clamp(Iteration, 1, 32);
 
     void Update()
     {
@@ -59,7 +62,7 @@ public sealed class BlockNoiseGenerator : MonoBehaviour
         _compute.SetInt("Seed", Time.frameCount);
         _compute.SetInt("Iteration", Iteration);
         _compute.SetTexture(0, "Output", _rt);
-        _compute.DispatchThreads(0, _threadCount);
+        _compute.Dispatch(0, _dispatchCount, 1, 1);
     }
 
     #endregion

@@ -1,0 +1,88 @@
+#pragma kernel BlockPicker
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Random.hlsl"
+
+RWTexture2D<float> Output;
+uint Iteration, Seed;
+
+static const uint kThreadCount = 16;
+static const uint kBufferSize = 1024;
+static groupshared uint shared_buffer[kBufferSize];
+
+// Divide and clear the shared buffer.
+void ClearBuffer(uint thread_id)
+{
+    // Per-thread stride
+    uint stride = kBufferSize / kThreadCount;
+
+    // Simple clear
+    for (uint i = 0; i < stride; i++)
+        shared_buffer[stride * thread_id + i] = 0;
+}
+
+// Fill random portions of the shared buffer.
+// Note: We don't care of race conditions. Glitches are welcomed.
+void RunRandomFill(uint thread_id)
+{
+    // Secondary random seed
+    uint seed2 = thread_id * 1024;
+
+    for (uint i = 0; i < Iteration; i++)
+    {
+        // Per-iteration random values
+        uint r1 = JenkinsHash(uint2(Seed, seed2++));
+        uint r2 = JenkinsHash(uint2(Seed, seed2++));
+        uint r3 = JenkinsHash(uint2(Seed, seed2++));
+
+        // Bit selection
+        float r3_fp = pow(ConstructFloat(r3), 2);
+        uint bit = 1u << (uint)(r3_fp * 8);
+
+        // Fill range
+        uint start = r1 & (kBufferSize - 1);
+        uint end = min(start + (r2 & 31), kBufferSize);
+
+        // Fill
+        for (uint j = start; j < end; j++) shared_buffer[j] |= bit;
+    }
+}
+
+// Devide and output the shared buffer.
+void OutputBuffer(uint group_id, uint thread_id)
+{
+    // Output texture dimensions
+    uint w, h;
+    Output.GetDimensions(w, h);
+
+    // Per-thread stride
+    uint stride = kBufferSize / kThreadCount;
+
+    // Read/write indices
+    uint r_idx = stride * thread_id;
+    uint w_idx = kBufferSize * group_id + r_idx;
+
+    // Output position on the Output texture
+    uint2 pos = uint2(w_idx % w, w_idx / w);
+
+    for (uint i = 0; i < stride; i++)
+    {
+        // Write with boundary guard
+        if (pos.y < h) Output[pos] = shared_buffer[r_idx++] / 255.0f;
+
+        // Position increment with wrap-around
+        pos = (pos.x == w - 1) ? uint2(0, pos.y + 1) : uint2(pos.x + 1, pos.y);
+    }
+}
+
+[numthreads(kThreadCount, 1, 1)]
+void BlockPicker(uint group_id : SV_GroupID,
+                 uint group_thread_id : SV_GroupThreadID,
+                 uint dispatch_thread_id : SV_DispatchThreadID)
+{
+    ClearBuffer(group_thread_id);
+    GroupMemoryBarrierWithGroupSync();
+    RunRandomFill(dispatch_thread_id);
+    GroupMemoryBarrierWithGroupSync();
+    OutputBuffer(group_id, group_thread_id);
+}
