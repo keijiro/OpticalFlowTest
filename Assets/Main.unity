@@ -150,9 +150,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _imageSource: {fileID: 1912508883}
   _flowSource: {fileID: 715894857}
+  _blockNoise: {fileID: 1327239030}
   _destination: {fileID: 8400000, guid: b3d4751a933f34629a34d9cb41200d50, type: 2}
   <Interval>k__BackingField: 1
-  <FlowAmplitude>k__BackingField: 3
+  <FlowAmplitude>k__BackingField: 4
   _compute: {fileID: 7200000, guid: 2de73854e7f3b4cdb99e5aac7c24a592, type: 3}
   _shader: {fileID: 4800000, guid: 95d0e6ccb0d92467b86bc9d4b357b46c, type: 3}
 --- !u!4 &123938094
@@ -288,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1159107119
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -330,7 +331,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159107118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -744,7 +745,7 @@ MonoBehaviour:
   _outputResolution: {x: 1920, y: 1152}
   _outputDestination: {fileID: 0}
   <SourceTexture>k__BackingField: {fileID: 0}
-  _sourceVideo: {fileID: 32900000, guid: ce9d2374530a54a0ca704a3e76a09868, type: 3}
+  _sourceVideo: {fileID: 32900000, guid: 6b05b56012ea3432a898b17efb7e3510, type: 3}
   <SourceCamera>k__BackingField: {fileID: 0}
   _sourceUrl: 
   _sourceName: MacBook Pro Camera

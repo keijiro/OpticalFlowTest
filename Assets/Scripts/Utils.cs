@@ -13,7 +13,7 @@ class Blitter : System.IDisposable
     public Blitter(Shader shader)
       => _material = new Material(shader);
 
-    public void Run(RenderTexture source, RenderTexture dest, int pass)
+    public void Run(Texture source, RenderTexture dest, int pass)
     {
         RenderTexture.active = dest;
         _material.mainTexture = source;

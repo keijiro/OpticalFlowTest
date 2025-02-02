@@ -10,6 +10,7 @@ public sealed class Datamosh : MonoBehaviour
 
     [SerializeField] ImageSource _imageSource = null;
     [SerializeField] OpticalFlowEstimator _flowSource = null;
+    [SerializeField] BlockNoiseGenerator _blockNoise = null;
     [SerializeField] RenderTexture _destination = null;
 
     #endregion
@@ -54,6 +55,7 @@ public sealed class Datamosh : MonoBehaviour
 
     void Update()
     {
+        /*
         _timer -= Time.deltaTime;
 
         if (_timer > 0)
@@ -65,6 +67,9 @@ public sealed class Datamosh : MonoBehaviour
             Graphics.Blit(_imageSource.AsTexture, _rt.buffer);
             _timer += Interval;
         }
+        */
+
+        Graphics.Blit(_destination, _rt.buffer);
 
         // Flow map downsampling
         _compute.SetTexture(0, "FlowMap", _flowSource.AsRenderTexture);
@@ -73,9 +78,11 @@ public sealed class Datamosh : MonoBehaviour
         _compute.DispatchThreads(0, Config.BlockDims);
 
         // Datamosh pass
+        _blitter.Material.SetTexture("_SourceTex", _imageSource.AsTexture);
         _blitter.Material.SetTexture("_FlowTex", _rt.flow);
+        _blitter.Material.SetTexture("_NoiseTex", _blockNoise.AsRenderTexture);
         _blitter.Material.SetFloat("_FlowAmp", FlowAmplitude);
-        _blitter.Run(_rt.buffer, _destination, 0);
+        _blitter.Run(_rt.buffer, _destination, 1);
     }
 
     #endregion
