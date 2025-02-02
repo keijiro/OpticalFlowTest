@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _imageSource: {fileID: 1912508883}
+  _blockPicker: {fileID: 1327239030}
   _flowSource: {fileID: 715894857}
-  _picker: {fileID: 1327239030}
   _destination: {fileID: 8400000, guid: b3d4751a933f34629a34d9cb41200d50, type: 2}
   <Interval>k__BackingField: 1
   <FlowAmplitude>k__BackingField: 4
