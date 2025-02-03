@@ -14,6 +14,9 @@
         },
         {
             "m_Id": "2cd6533799bf4098a22eb147719875c9"
+        },
+        {
+            "m_Id": "9773a7bebf844a50aae454d840a91ee2"
         }
     ],
     "m_Keywords": [],
@@ -53,6 +56,9 @@
         },
         {
             "m_Id": "8d5100df7d6d4772b6d5888ad2d996f9"
+        },
+        {
+            "m_Id": "db656549e96340dbb2637587ea1564d4"
         }
     ],
     "m_GroupDatas": [],
@@ -141,6 +147,20 @@
                 },
                 "m_SlotId": 0
             }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "db656549e96340dbb2637587ea1564d4"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "8e474c9561c640a189de8704d0a03562"
+                },
+                "m_SlotId": 6
+            }
         }
     ],
     "m_VertexContext": {
@@ -194,20 +214,17 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
-    "m_ObjectId": "04fba7318ff0426e80cea1f64b75a1a9",
-    "m_Id": 1,
-    "m_DisplayName": "OpticalFlow",
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "063a5d98e39946d49fcacc78ef30459f",
+    "m_Id": 6,
+    "m_DisplayName": "BlockOpacity",
     "m_SlotType": 0,
     "m_Hidden": false,
-    "m_ShaderOutputName": "OpticalFlow",
+    "m_ShaderOutputName": "BlockOpacity",
     "m_StageCapability": 3,
-    "m_BareResource": false,
-    "m_Texture": {
-        "m_SerializedTexture": "",
-        "m_Guid": ""
-    },
-    "m_DefaultType": 0
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -215,7 +232,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "09c8b267a83e44949c52ccc1d225c490",
     "m_Id": 0,
-    "m_DisplayName": "FlowIntensity",
+    "m_DisplayName": "FlowOpacity",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -257,6 +274,39 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "VertexDescription.Position"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "1777ead4529745c8a5496cdca735cadb",
+    "m_Id": 4,
+    "m_DisplayName": "FlowOpacity",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "FlowOpacity",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
+    "m_ObjectId": "1892150e4c5d40a19c3670f4c0b2f1b9",
+    "m_Id": 5,
+    "m_DisplayName": "BlockTex",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "BlockTex",
+    "m_StageCapability": 3,
+    "m_BareResource": false,
+    "m_Texture": {
+        "m_SerializedTexture": "",
+        "m_Guid": ""
+    },
+    "m_DefaultType": 0
 }
 
 {
@@ -306,7 +356,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "2b2ce61a4db14d9fba85358148ac8e4f",
     "m_Id": 0,
-    "m_DisplayName": "BlockNoise",
+    "m_DisplayName": "BlockTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -321,10 +371,10 @@
     "m_Guid": {
         "m_GuidSerialized": "2e3880ff-7ba3-489c-b74e-0704efd6fc3d"
     },
-    "m_Name": "BlockNoise",
+    "m_Name": "BlockTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "BlockNoise",
-    "m_DefaultReferenceName": "_BlockNoise",
+    "m_RefNameGeneratedByDisplayName": "BlockTex",
+    "m_DefaultReferenceName": "_BlockTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -405,8 +455,8 @@
         "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -502.9999694824219,
-            "y": 302.9999694824219,
+            "x": -522.0,
+            "y": 302.0,
             "width": 141.5,
             "height": 94.0
         }
@@ -446,10 +496,25 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "4a94b6c8e95243d680cbe0df6f1e6a6e",
+    "m_Id": 0,
+    "m_DisplayName": "BlockOpacity",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "5313942c912a46019a7b89c9b2334ca2",
     "m_Id": 0,
-    "m_DisplayName": "ImageSource",
+    "m_DisplayName": "SourceTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -469,10 +534,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -505.99993896484377,
-            "y": 396.9999694824219,
-            "width": 144.49996948242188,
-            "height": 34.000030517578128
+            "x": -520.5,
+            "y": 396.0,
+            "width": 140.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -505,10 +570,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -506.49993896484377,
-            "y": 235.0,
-            "width": 144.99996948242188,
-            "height": 34.000030517578128
+            "x": -506.5,
+            "y": 234.0,
+            "width": 126.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -541,10 +606,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -513.4999389648438,
-            "y": 200.99998474121095,
-            "width": 127.49996948242188,
-            "height": 33.999969482421878
+            "x": -518.5,
+            "y": 200.0,
+            "width": 138.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -572,10 +637,10 @@
     "m_Guid": {
         "m_GuidSerialized": "40f07cb6-8b0a-49f9-ae13-c187119c6ae6"
     },
-    "m_Name": "OpticalFlow",
+    "m_Name": "FlowTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "OpticalFlow",
-    "m_DefaultReferenceName": "_OpticalFlow",
+    "m_RefNameGeneratedByDisplayName": "FlowTex",
+    "m_DefaultReferenceName": "_FlowTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -640,24 +705,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
-    "m_ObjectId": "75fae47542eb424392737fc1477940f6",
-    "m_Id": 0,
-    "m_DisplayName": "ImageSource",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "ImageSource",
-    "m_StageCapability": 3,
-    "m_BareResource": false,
-    "m_Texture": {
-        "m_SerializedTexture": "",
-        "m_Guid": ""
-    },
-    "m_DefaultType": 0
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.NormalMaterialSlot",
     "m_ObjectId": "7aadf07a860048aaa263feb9b0fd981b",
     "m_Id": 0,
@@ -692,10 +739,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -503.49993896484377,
-            "y": 269.0000305175781,
-            "width": 141.99996948242188,
-            "height": 33.99993896484375
+            "x": -510.5,
+            "y": 268.0,
+            "width": 130.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -728,27 +775,30 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -310.4999694824219,
-            "y": 200.99998474121095,
-            "width": 230.99996948242188,
-            "height": 190.00001525878907
+            "x": -331.5,
+            "y": 200.0,
+            "width": 231.0,
+            "height": 214.0
         }
     },
     "m_Slots": [
         {
-            "m_Id": "75fae47542eb424392737fc1477940f6"
+            "m_Id": "be935ec9796148f6884aa23ebe3033c8"
         },
         {
-            "m_Id": "04fba7318ff0426e80cea1f64b75a1a9"
+            "m_Id": "b62fc5fa90ab48e687f6d98afbacc6d0"
         },
         {
-            "m_Id": "c75c44046b39400eb327b9170f22de15"
+            "m_Id": "1892150e4c5d40a19c3670f4c0b2f1b9"
         },
         {
             "m_Id": "195b0294fe7945fd8968120746ef8e04"
         },
         {
-            "m_Id": "ca49ebfc6c9640d78634c012e659dae8"
+            "m_Id": "1777ead4529745c8a5496cdca735cadb"
+        },
+        {
+            "m_Id": "063a5d98e39946d49fcacc78ef30459f"
         },
         {
             "m_Id": "bb0824fa9bc64cffb459dbf2d80b0e2e"
@@ -769,7 +819,35 @@
     "m_FunctionName": "VisualizeFlow",
     "m_FunctionSource": "",
     "m_FunctionSourceUsePragmas": true,
-    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(ImageSource, UV).rgb);\n\nfloat2 flow = tex2D(OpticalFlow, UV).xy;\nfloat dir = atan2(flow.y, flow.x);\nfloat hue = (dir / PI + 1) / 2;\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * FlowIntensity;\n\nfloat glitch = tex2D(BlockNoise, UV).x;\nfloat3 c3 = glitch > 0 ? float3(1, glitch, glitch) : 0;\n\nOutput = SRGBToLinear((c1 + c2 + c3) / 3);"
+    "m_FunctionBody": "float3 c1 = LinearToSRGB(tex2D(SourceTex, UV).rgb);\n\nfloat2 flow = tex2D(FlowTex, UV).xy;\nfloat hue = (atan2(flow.y, flow.x) / PI + 1) / 2;\nfloat3 c2 = HsvToRgb(float3(hue, 1, 1));\nc2 *= length(flow) * FlowOpacity;\n\nfloat glitch = tex2D(BlockTex, UV).x;\nfloat3 c3 = HsvToRgb(float3(glitch, 1, glitch > 0));\nc3 *= BlockOpacity;\n\nfloat3 srgb = (c1 + c2 + c3) / (1 + FlowOpacity + BlockOpacity);\nOutput = SRGBToLinear(srgb);"
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "9773a7bebf844a50aae454d840a91ee2",
+    "m_Guid": {
+        "m_GuidSerialized": "4cd3e293-7616-4aa9-b135-fc0634d84e10"
+    },
+    "m_Name": "BlockOpacity",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "BlockOpacity",
+    "m_DefaultReferenceName": "_BlockOpacity",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 1,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
 }
 
 {
@@ -803,10 +881,10 @@
     "m_Guid": {
         "m_GuidSerialized": "e273cf06-3bcb-4850-a7dc-b07aaa29fee3"
     },
-    "m_Name": "ImageSource",
+    "m_Name": "SourceTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "ImageSource",
-    "m_DefaultReferenceName": "_ImageSource",
+    "m_RefNameGeneratedByDisplayName": "SourceTex",
+    "m_DefaultReferenceName": "_SourceTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -867,10 +945,10 @@
     "m_Guid": {
         "m_GuidSerialized": "e7fc5867-0c1c-45be-bf95-e603ffc8907b"
     },
-    "m_Name": "FlowIntensity",
+    "m_Name": "FlowOpacity",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "FlowIntensity",
-    "m_DefaultReferenceName": "_FlowIntensity",
+    "m_RefNameGeneratedByDisplayName": "FlowOpacity",
+    "m_DefaultReferenceName": "_FlowOpacity",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -881,7 +959,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 1.0,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
         "y": 1.0
@@ -960,8 +1038,29 @@
         },
         {
             "m_Id": "a8985335b1864663b39ff33acec790c5"
+        },
+        {
+            "m_Id": "9773a7bebf844a50aae454d840a91ee2"
         }
     ]
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
+    "m_ObjectId": "b62fc5fa90ab48e687f6d98afbacc6d0",
+    "m_Id": 1,
+    "m_DisplayName": "FlowTex",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "FlowTex",
+    "m_StageCapability": 3,
+    "m_BareResource": false,
+    "m_Texture": {
+        "m_SerializedTexture": "",
+        "m_Guid": ""
+    },
+    "m_DefaultType": 0
 }
 
 {
@@ -990,12 +1089,12 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
-    "m_ObjectId": "c75c44046b39400eb327b9170f22de15",
-    "m_Id": 5,
-    "m_DisplayName": "BlockNoise",
+    "m_ObjectId": "be935ec9796148f6884aa23ebe3033c8",
+    "m_Id": 0,
+    "m_DisplayName": "SourceTex",
     "m_SlotType": 0,
     "m_Hidden": false,
-    "m_ShaderOutputName": "BlockNoise",
+    "m_ShaderOutputName": "SourceTex",
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
@@ -1037,21 +1136,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "ca49ebfc6c9640d78634c012e659dae8",
-    "m_Id": 4,
-    "m_DisplayName": "FlowIntensity",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "FlowIntensity",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "cfbc77fe9ce3464ba2356038a63bc8d6",
     "m_Group": {
@@ -1086,10 +1170,46 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "db656549e96340dbb2637587ea1564d4",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -524.5,
+            "y": 430.0,
+            "width": 144.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "4a94b6c8e95243d680cbe0df6f1e6a6e"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "9773a7bebf844a50aae454d840a91ee2"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "e62b8264d8cf4afbb0636a1f516af09d",
     "m_Id": 0,
-    "m_DisplayName": "OpticalFlow",
+    "m_DisplayName": "FlowTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

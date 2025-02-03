@@ -273,8 +273,8 @@ MonoBehaviour:
     x: 160
     y: 96
   _blockDims:
-    x: 40
-    y: 24
+    x: 80
+    y: 48
 --- !u!4 &217150743
 Transform:
   m_ObjectHideFlags: 0
@@ -358,7 +358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1159107119
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -400,7 +400,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159107118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Property:
-    m_Name: BlockNoise
+    m_Name: BlockPicker
   Target: {fileID: 1327239030}
 --- !u!1 &1327239029
 GameObject:
